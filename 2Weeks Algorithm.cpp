@@ -24,49 +24,26 @@
 
 using namespace std;
 
-string s, ret;
-int cnt[200], flag;
-char mid;
+int n, m, a[15004], cnt;
 
 int main()
 {
-	cin >> s;
+	cin >> n >> m;
 
-	for(char a : s)
+	for(int i = 0; i < n; i++)
 	{
-		// 카운팅 배열 문자 카운팅하기
-		cnt[a]++;
+		cin >> a[i];
 	}
 
-	for(int i = 'Z'; i >= 'A'; i--)
+	for(int i = 0; i < n; i++)
 	{
-		if(cnt[i])
+		for(int j = i + 1; j < n; j++)
 		{
-			if(cnt[i] & 1) // 해당 문자열이 1개인 경우
-			{
-				// 한개인 경우 중앙에 넣을 것
-				mid = char(i);
-				// flag가 2개 이상인 경우는 실패
-				flag++;
-				cnt[i]--;
-			}
-			if (flag == 2)
-				break;
-			for(int j = 0; j < cnt[i]; j += 2)
-			{
-				ret = char(i) + ret;
-				ret += char(i);
-			}
+			if (a[i] + a[j] == m)
+				cnt++;
 		}
 	}
-
-	// mid에 값이 있을 경우
-	if (mid)
-		ret.insert(ret.begin() + ret.size() / 2, mid);
-	if (flag == 2)
-		cout << "I'm Sorry Hansoo\n";
-	else
-		cout << ret << "\n";
+	cout << cnt << "\n";
 
 	return 0;
 }
