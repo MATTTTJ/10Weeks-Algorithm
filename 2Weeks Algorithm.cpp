@@ -24,33 +24,26 @@
 #include <vector>
 
 using namespace std;
+typedef long long ll;
 
-int n, ret;
-string s;
+ll a, b, c;
+ll go(ll a, ll b)
+{
+	if (b == 1) return a % c;
+	ll ret = go(a, b / 2);
+	ret = (ret * ret) % c;
+	if (b % 2)
+		ret = (ret * a) % c;
+
+	return ret;
+}
+
 
 int main()
 {
-	cin >> n;
+	cin >> a >> b >> c;
 
-	for(int i = 0; i < n; i++)
-	{
-		cin >> s;
+	cout << go(a, b) << "\n";
 
-		stack<char> stk;
-
-		for(char a : s)
-		{
-			if (stk.size() && stk.top() == a)
-			{
-				stk.pop();
-			}
-			else
-				stk.push(a);
-		}
-		if (stk.size() == 0)
-			ret++;
-	}
-
-	cout << ret << "\n";
 	return 0;
 }
