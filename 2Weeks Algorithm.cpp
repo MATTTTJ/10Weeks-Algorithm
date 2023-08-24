@@ -27,6 +27,10 @@ using namespace std;
 typedef long long ll;
 
 ll a, b, c;
+
+// 곱하기 자체를 하나의 변수로 놓는 방법 (실제로 곱하진 않음)
+// 모듈러 연산 교안 참고하기
+// 오버 플로우가 되기 전에 미리미리 모듈러 연산을 진행
 ll go(ll a, ll b)
 {
 	if (b == 1) return a % c;
@@ -37,7 +41,6 @@ ll go(ll a, ll b)
 
 	return ret;
 }
-
 
 int main()
 {
