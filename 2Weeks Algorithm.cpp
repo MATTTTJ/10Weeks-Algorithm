@@ -2,20 +2,14 @@
 //
 
 
-// n : 1 ~ 10만
-// k : 1 ~ 10만 - 1 (n 사이 값)
-// 온도는 -100 ~ 100
-// 연속된 온도의 합이 "최대" 되는 값
-// 이 문제의 최솟값은? -100 * 10만  >> -1000만으로 잡을 것
-// 최대값은 어디서부터 ?
-
-// ret 에 최댓값을 계속 갱신할 것
-
-
-
-
-
-
+/**
+ * 배수란 ? 4 % 2 == 0 인 경우를 봤을 때 true이면 배수라고 판단한다.
+ * 1로만 이루어진 수 중에 n 의 배수 -> 가장 작은 거의 자릿수
+ * 111 % (모듈러연산) 3 == 0
+ * 이 경우 111의 자릿수는 3, 이 3을 이용해서 111을 나눴을 때 배수가 된다.
+ * n이 9901인 경우 12자리가 나온다. 
+ */
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <algorithm>
 #include <iostream>
@@ -24,49 +18,33 @@
 
 using namespace std;
 
-string s, ret;
-int cnt[200], flag;
-char mid;
+typedef long long ll;
+int n;
 
 int main()
 {
-	cin >> s;
-
-	for(char a : s)
+	while(cin >> n)
 	{
-		// 카운팅 배열 문자 카운팅하기
-		cnt[a]++;
-	}
-
-	for(int i = 'Z'; i >= 'A'; i--)
-	{
-		if(cnt[i])
+		int cnt = 1, ret = 1;
+		while(true)
 		{
-			if(cnt[i] & 1) // 해당 문자열이 1개인 경우
+			// 자릿수가 수의 배수임을 체크하고 자릿수 반환하기
+			if(cnt % n ==0)
 			{
-				// 한개인 경우 중앙에 넣을 것
-				mid = char(i);
-				// flag가 2개 이상인 경우는 실패
-				flag++;
-				cnt[i]--;
-			}
-			if (flag == 2)
+				// printf("%d\n", ret);
+				cout << ret << "\n";
 				break;
-			for(int j = 0; j < cnt[i]; j += 2)
+			}
+			else
 			{
-				ret = char(i) + ret;
-				ret += char(i);
+				// 전 숫자 * 10 + 1 해서 한자릿수씩 증가시키는 것
+				cnt = (cnt * 10) + 1;
+				cnt %= n;
+				// 자릿수 체크
+				ret++;
 			}
 		}
 	}
-
-	// mid에 값이 있을 경우
-	if (mid)
-		ret.insert(ret.begin() + ret.size() / 2, mid);
-	if (flag == 2)
-		cout << "I'm Sorry Hansoo\n";
-	else
-		cout << ret << "\n";
 
 	return 0;
 }
