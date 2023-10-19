@@ -17,34 +17,116 @@
 #include <vector>
 
 using namespace std;
+//
+//typedef long long ll;
+//int n;
+//
+//int main()
+//{
+//	while(cin >> n)
+//	{
+//		int cnt = 1, ret = 1;
+//		while(true)
+//		{
+//			// 자릿수가 수의 배수임을 체크하고 자릿수 반환하기
+//			if(cnt % n ==0)
+//			{
+//				// printf("%d\n", ret);
+//				cout << ret << "\n";
+//				break;
+//			}
+//			else
+//			{
+//				// 전 숫자 * 10 + 1 해서 한자릿수씩 증가시키는 것
+//				cnt = (cnt * 10) + 1;
+//				cnt %= n;
+//				// 자릿수 체크
+//				ret++;
+//			}
+//		}
+//	}
+//
+//	return 0;
+//}
 
-typedef long long ll;
-int n;
+//const int V = 4;
+//vector<int> adj[V];
+//int main()
+//{
+//	adj[0].push_back(1);
+//	adj[0].push_back(2);
+//	adj[0].push_back(3);
+//
+//	adj[1].push_back(0);
+//	adj[1].push_back(2);
+//
+//
+//	adj[2].push_back(0);
+//	adj[2].push_back(1);
+//
+//
+//	adj[3].push_back(0);
+//
+//	/*for (int i = 0; i < V; i++)
+//	{
+//		cout << i << " :: ";
+//		for (int there : adj[i])
+//		{
+//			cout << there << " ";
+//		}
+//		cout << '\n';
+//	}*/
+//
+//	for (int i = 0; i < 4; i++)
+//	{
+//		cout << i << " :: ";
+//		for (int j = 0; j < adj[i].size(); j++)
+//		{
+//			cout << adj[i][j] << " ";
+//		}
+//		cout << '\n';
+//	}
+//}
+
+const int V = 10;
+vector<int> adj[V];
+int visited[V];
+void go(int idx)
+{
+	cout << idx << '\n';
+	visited[idx] = 1;
+	for (int there : adj[idx])
+	{
+		if (visited[there])
+			continue;
+		go(there);
+	}
+	return;
+}
 
 int main()
 {
-	while(cin >> n)
-	{
-		int cnt = 1, ret = 1;
-		while(true)
-		{
-			// 자릿수가 수의 배수임을 체크하고 자릿수 반환하기
-			if(cnt % n ==0)
-			{
-				// printf("%d\n", ret);
-				cout << ret << "\n";
-				break;
-			}
-			else
-			{
-				// 전 숫자 * 10 + 1 해서 한자릿수씩 증가시키는 것
-				cnt = (cnt * 10) + 1;
-				cnt %= n;
-				// 자릿수 체크
-				ret++;
-			}
-		}
-	}
+	adj[1].push_back(2);
+	adj[2].push_back(1);
 
-	return 0;
+	adj[1].push_back(3);
+	adj[3].push_back(1);
+
+	adj[3].push_back(4);
+	adj[4].push_back(3);
+
+	for (int i = 0; i < V; i++)
+	{
+		if (adj[i].size() && visited[i] == 0)
+			go(i);
+	}
 }
+
+
+
+
+
+
+
+
+
