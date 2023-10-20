@@ -15,6 +15,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <queue>
 
 using namespace std;
 //
@@ -201,53 +202,255 @@ using namespace std;
 //	adj[2].push_back(5);
 //	dfs(1);
 //}
+//
+//int dy[4] = { -1, 0, 1, 0 };
+//int dx[4] = { 0,1, 0, -1 };
+//int m, n, k, y, x, ret, ny, nx, t;
+//int a[104][104];
+//bool visited[104][104];
+//
+//void dfs(int y, int x)
+//{
+//	visited[y][x] = 1;
+//	cout << y << " : " << x << '\n';
+//
+//	for (int i = 0; i < 4; i++)
+//	{
+//		ny = y + dy[i];
+//		nx = x + dx[i];
+//		if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue;
+//		if (a[ny][nx] == 1 && !visited[ny][nx])
+//			dfs(ny, nx);
+//	}
+//	return;
+//}
+//
+//int main()
+//{
+//	cin >> n >> m;
+//	for (int i = 0; i < n; i++)
+//	{
+//		for (int j = 0; j < m; j++)
+//		{
+//			cin >> a[i][j];
+//		}
+//	}
+//
+//	for (int i = 0; i < n; i++)
+//	{
+//		for (int j = 0; j < m; j++)
+//		{
+//			if (a[i][j] == 1 && !visited[i][j])
+//			{
+//				cout << i << " : " << j << '\n';
+//				cout << ret << " : " << " dfs가 시작됩니다.'\n";
+//				ret++;
+//				dfs(i, j);
+//			}
+//		}
+//	}
+//
+//	cout << ret << '\n';
+//	return 0;
+//}
 
-int dy[4] = { -1, 0, 1, 0 };
-int dx[4] = { 0,1, 0, -1 };
-int m, n, k, y, x, ret, ny, nx, t;
-int a[104][104];
-bool visited[104][104];
-void dfs(int y, int x)
+//vector<int> adj[100];
+//int visited[100];
+//int nodeList[] = { 10, 12, 14, 16, 18, 20, 22 ,24 };
+//void bfs(int here)
+//{
+//	queue<int> q;
+//	visited[here] = 1;
+//	q.push(here);
+//	while (q.size())
+//	{
+//		int here = q.front(); 
+//		q.pop();
+//
+//		for (int there : adj[here])
+//		{
+//			if (visited[there]) continue;
+//			visited[there] = visited[here] + 1; // 가중치 부여
+//			q.push(there);
+//		}
+//	}
+//}
+//
+//int main()
+//{
+//	adj[10].push_back(12);
+//	adj[10].push_back(14);
+//	adj[10].push_back(16);
+//
+//
+//	adj[12].push_back(18);
+//	adj[12].push_back(20);
+//
+//
+//	adj[20].push_back(22);
+//	adj[20].push_back(24);
+//	bfs(10);
+//
+//	for (int i : nodeList)
+//	{
+//		cout << i << " : " << visited[i] << '\n';
+//	}
+//
+//	cout << "10번으로부터 24번까지의 최단거리는 : " << visited[24] - 1 << '\n';
+//	return 0;
+//}
+
+
+//const int max_n = 104;
+//int dy[4] = { -1, 0, 1, 0 };
+//int dx[4] = { 0, 1, 0, -1 };
+//int n, m, a[max_n][max_n], visited[max_n][max_n], y, x, sy, sx, ey, ex;
+//
+//int main()
+//{
+//	scanf("%d %d", &n, &m);
+//	cin >> sy >> sx;
+//	cin >> ey >> ex;
+//
+//	for(int i =0; i <n; i++)
+//	{
+//		for(int j = 0; j < m; j++)
+//		{
+//			cin >> a[i][j];
+//		}
+//	}
+//
+//	queue<pair<int, int>> q;
+//	visited[sy][sx] = 1;
+//	q.push({ sy,sx });
+//	while(q.size())
+//	{
+//		tie(y, x) = q.front();
+//		q.pop();
+//
+//		for(int i =0; i < 4; i++)
+//		{
+//			int ny = y + dy[i];
+//			int nx = x + dx[i];
+//			if (ny < 0 || ny >= n || nx < 0 || nx >= m || a[ny][nx] == 0) continue;
+//
+//			if (visited[ny][nx]) continue;
+//
+//			visited[ny][nx] = visited[y][x] + 1;
+//			q.push({ ny, nx });
+//		}
+//	}
+//	printf("%d\n", visited[ey][ex]);
+//	// 최단거리 디버깅
+//	for(int i = 0; i < n; i++)
+//	{
+//		for(int j = 0; j < m; j++)
+//		{
+//			cout << visited[i][j] << ' ';
+//		}
+//		cout << '\n';
+//	}
+//
+//	return 0;
+//}
+
+vector<int> adj[1004];
+int visited[1004];
+
+void postOrder(int here)
 {
-	visited[y][x] = 1;
-	cout << y << " : " << x << '\n';
-
-	for (int i = 0; i < 4; i++)
+	if(visited[here] == 0)
 	{
-		ny = y + dy[i];
-		nx = x + dx[i];
-		if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue;
-		if (a[ny][nx] == 1 && !visited[ny][nx])
-			dfs(ny, nx);
+		if (adj[here].size() == 1)
+			postOrder(adj[here][0]);
+		if(adj[here].size() == 2)
+		{
+			postOrder(adj[here][0]);
+			postOrder(adj[here][1]);
+		}
+		visited[here] = 1;
+		cout << here << ' ';
 	}
-	return;
+}
+
+void preOrder(int here)
+{
+	if(visited[here] == 0)
+	{
+		visited[here] = 1;
+		cout << here << ' ';
+		if (adj[here].size() == 1)
+			preOrder(adj[here][0]);
+		if(adj[here].size() ==2)
+		{
+			preOrder(adj[here][0]);
+			preOrder(adj[here][1]);
+		}
+	}
+}
+
+void inOrder(int here)
+{
+	if(visited[here] == 0)
+	{
+		if(adj[here].size() ==1)
+		{
+			inOrder(adj[here][0]);
+			visited[here] = 1;
+			cout << here << ' ';
+		}
+		else if (adj[here].size() == 2)
+		{
+			inOrder(adj[here][0]);
+			visited[here] = 1;
+			cout << here << ' ';
+
+			inOrder(adj[here][1]);
+		}
+		else
+		{
+			visited[here] = 1;
+			cout << here << ' ';
+		}
+	}
 }
 
 int main()
 {
-	cin >> n >> m;
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < m; j++)
-		{
-			cin >> a[i][j];
-		}
-	}
+	adj[1].push_back(2);
+	adj[1].push_back(3);
+	adj[2].push_back(4);
+	adj[2].push_back(5);
 
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < m; j++)
-		{
-			if (a[i][j] == 1 && !visited[i][j])
-			{
-				cout << i << " : " << j << '\n';
-				cout << ret << " : " << " dfs가 시작됩니다.'\n";
-				ret++;
-				dfs(i, j);
-			}
-		}
-	}
+	int root = 1;
 
-	cout << ret << '\n';
+	cout << "\n 트리순회 : postOrder \n";
+	postOrder(root);
+	memset(visited, 0, sizeof(visited));
+
+	cout << "\n 트리순회 : preOrder \n";
+	preOrder(root);
+	memset(visited, 0, sizeof(visited));
+
+	cout << "\n 트리순회 : inOrder \n";
+	inOrder(root);
+
 	return 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
