@@ -140,37 +140,114 @@ using namespace std;
 //	return 0;
 //}
 
-const int n = 3;
-int a[n][n], visited[n][n];
-const int dy[] = { -1, 0, 1, 0 };
-const int dx[] = { 0, 1, 0, -1 };
+//const int n = 3;
+//int a[n][n], visited[n][n];
+//const int dy[] = { -1, 0, 1, 0 };
+//const int dx[] = { 0, 1, 0, -1 };
+//
+//void go(int y, int x)
+//{
+//	visited[y][x] = 1;
+//	cout << y << " : " << x << "\n";
+//	for (int i = 0; i < 4; i++)
+//	{
+//		int ny = y + dy[i];
+//		int nx = x + dx[i];
+//		if (ny < 0 || ny >= n || nx < 0 || nx >= n) continue;
+//		if (a[ny][nx] == 0) continue;
+//		if (visited[ny][nx]) continue;
+//		go(ny, nx);
+//	}
+//	return;
+//}
+//
+//int main()
+//{
+//	for (int i = 0; i < n; i++)
+//	{
+//		for (int j = 0; j < n; j++)
+//		{
+//			cin >> a[i][j];
+//		}
+//		go(0, 0);
+//	}
+//}
 
-void go(int y, int x)
+
+//const int n = 6;
+//vector<int> adj[n];
+//int visited[n];
+//void dfs(int u)
+//{
+//	visited[u] = 1; // true 방문했다. 
+//	cout << u << "\n"; // 방문한 노드 출력
+//	for (int v : adj[u])
+//	{
+//		if (visited[v] == 0) // 방문하지 않았던 노드의 경우
+//		{
+//			dfs(v); // 다시 깊이 우선 탐색
+//		}
+//	}
+//	cout << u << "로부터 시작된 함수가 종료되었습니다.\n";
+//	return;
+//}
+//
+//int main()
+//{
+//	adj[1].push_back(2);
+//	adj[1].push_back(3);
+//	adj[2].push_back(4);
+//	adj[4].push_back(2);
+//	adj[2].push_back(5);
+//	dfs(1);
+//}
+
+int dy[4] = { -1, 0, 1, 0 };
+int dx[4] = { 0,1, 0, -1 };
+int m, n, k, y, x, ret, ny, nx, t;
+int a[104][104];
+bool visited[104][104];
+void dfs(int y, int x)
 {
 	visited[y][x] = 1;
-	cout << y << " : " << x << "\n";
+	cout << y << " : " << x << '\n';
+
 	for (int i = 0; i < 4; i++)
 	{
-		int ny = y + dy[i];
-		int nx = x + dx[i];
-		if (ny < 0 || ny >= n || nx < 0 || nx >= n) continue;
-		if (a[ny][nx] == 0) continue;
-		if (visited[ny][nx]) continue;
-		go(ny, nx);
+		ny = y + dy[i];
+		nx = x + dx[i];
+		if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue;
+		if (a[ny][nx] == 1 && !visited[ny][nx])
+			dfs(ny, nx);
 	}
 	return;
 }
 
 int main()
 {
+	cin >> n >> m;
 	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j < n; j++)
+		for (int j = 0; j < m; j++)
 		{
 			cin >> a[i][j];
 		}
-		go(0, 0);
 	}
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			if (a[i][j] == 1 && !visited[i][j])
+			{
+				cout << i << " : " << j << '\n';
+				cout << ret << " : " << " dfs가 시작됩니다.'\n";
+				ret++;
+				dfs(i, j);
+			}
+		}
+	}
+
+	cout << ret << '\n';
+	return 0;
 }
-
-
