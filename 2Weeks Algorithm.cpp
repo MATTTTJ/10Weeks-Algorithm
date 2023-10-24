@@ -11,51 +11,57 @@
 
 using namespace std;
 
-// algorithm 2910 (custom operator)
+// algorithm 4659
 
-int n, c, a[1004];
-vector<pair<int, int>> v;
-map<int, int> mp, mp_first;
+string s;
+int lcnt, vcnt;
 
-bool cmp(pair<int,int> a, pair<int,int> b)
+bool isVowel(int idx)
 {
-	// 같은 수를 카운팅하고 대소 비교를 통해 정렬하기 위함
-	if(a.first == b.first)
-	{
-		return mp_first[a.second] < mp_first[b.second];
-	}
-	return a.first > b.first;
+	return (idx == 'a' || idx == 'e' || idx == 'i' || idx == 'o' || idx == 'u');
 }
 
 int main()
 {
-	cin >> n >> c;
-
-	for(int i =0; i < n; i++)
+	while(true)
 	{
-		cin >> a[i];
-		mp[a[i]]++;
-		// 숫자를 인덱스로 사용하고 같은 인덱스가 있는지 체크해서 카운팅을 늘리는 방식
-		if (mp_first[a[i]] == 0)
-			mp_first[a[i]] = i + 1;
-	}
-	// 키 값에 카운팅이 들어가기 때문에 이를 기반으로 정렬하기 위함
-	for(auto it : mp)
-	{
-		v.push_back({ it.second, it.first });
-	}
+		cin >> s;
+		if (s == "end") break;
 
-	sort(v.begin(), v.end(), cmp);
+		lcnt = vcnt = 0;
 
-	for(auto it : v)
-	{
-		for(int j = 0; j < it.first; j++)
+		bool flag = false;
+		bool is_include_v = 0;
+		int prev = -1;
+
+		for(int i =0; i < s.size(); i++)
 		{
-			cout << it.second << " ";
+			int idx = s[i];
+
+			// 모음인지 체크
+			if (isVowel(idx))
+				lcnt++, vcnt = 0, is_include_v = 1;
+			else
+				vcnt++, lcnt = 0;
+
+			if (vcnt == 3 || lcnt == 3)
+				flag = 1;
+
+			if(i >= 1 && (prev == idx) && (idx != 'e' && idx != 'o'))
+			{
+				flag = 1;
+			}
+			prev = idx;
 		}
+
+		if (is_include_v == 0)
+			flag = 1;
+
+		if (flag)
+			cout << "<" << s << ">" << " is not acceptable.\n";
+		else
+			cout << "<" << s << ">" << " is acceptable.\n";
 	}
 
 	return 0;
 }
-
-
