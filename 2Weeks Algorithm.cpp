@@ -11,50 +11,35 @@
 
 using namespace std;
 
-// algorithm 10709
+// algorithm 3474
 
-int n, m, a[104][104];
-string s;
+int n, a;
+
+vector<int> v;
 
 int main()
 {
-	cin >> n >> m;
-	for(int i =0; i <n; i++)
-	{
-		cin >> s;
-		for(int j = 0; j < m; j++)
-		{
-			if (s[j] == '.')
-				a[i][j] = -1;
-			else
-				a[i][j] = 0;
-		}
-	}
-
+	cin >> n;
 	for(int i =0; i < n; i++)
 	{
-		for(int j =0; j < m; j++)
-		{
-			if(a[i][j] == 0)
-			{
-				int cnt = 1;
-
-				while(a[i][j+1] == -1)
-				{
-					a[i][j + 1] = cnt++;
-					j++;
-				}
-			}
-		}
+		cin >> a;
+		v.push_back(a);
 	}
 
-	for(int i =0; i < n; i++)
+	for (auto it : v)
 	{
-		for(int j =0; j < m; j++)
+		int ret2 = 0, ret5 = 0;
+		for (int j = 2; j <= it; j *= 2)
 		{
-			cout << a[i][j] << " ";
+			ret2 += it / j;
 		}
-		cout << "\n";
+
+		for (int j = 5; j <= it; j *= 5)
+		{
+			ret5 += it / j;
+		}
+		cout << min(ret2, ret5) << "\n";
 	}
 	return 0;
 }
+
