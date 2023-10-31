@@ -11,57 +11,58 @@
 
 using namespace std;
 
-// algorithm 4659
+// algorithm 2870
 
-string s;
-int lcnt, vcnt;
+int n;
+vector<string> v;
+string s, ret;
 
-bool isVowel(int idx)
+void go()
 {
-	return (idx == 'a' || idx == 'e' || idx == 'i' || idx == 'o' || idx == 'u');
+	//0지우기
+	while(true)
+	{
+		if (ret.size() && ret.front() == '0')
+			ret.erase(ret.begin());
+		else
+			break;
+	}
+	if (ret.size() == 0)
+		ret = "0";
+	v.push_back(ret);
+	ret = "";
+}
+// 문자열인 숫자를 비교하기 위함
+bool cmp(string a, string b)
+{
+	if (a.size() == b.size())
+		return a < b;
+
+	return a.size() < b.size();
 }
 
 int main()
 {
-	while(true)
+	cin >> n;
+
+	for(int i =0; i < n; i++)
 	{
 		cin >> s;
-		if (s == "end") break;
-
-		lcnt = vcnt = 0;
-
-		bool flag = false;
-		bool is_include_v = 0;
-		int prev = -1;
-
-		for(int i =0; i < s.size(); i++)
+		ret = "";
+		for(int j =0; j < s.size(); j++)
 		{
-			int idx = s[i];
-
-			// 모음인지 체크
-			if (isVowel(idx))
-				lcnt++, vcnt = 0, is_include_v = 1;
-			else
-				vcnt++, lcnt = 0;
-
-			if (vcnt == 3 || lcnt == 3)
-				flag = 1;
-
-			if(i >= 1 && (prev == idx) && (idx != 'e' && idx != 'o'))
-			{
-				flag = 1;
-			}
-			prev = idx;
+			if (s[j] < 65)
+				ret += s[j];
+			else if (ret.size())
+				go();
 		}
-
-		if (is_include_v == 0)
-			flag = 1;
-
-		if (flag)
-			cout << "<" << s << ">" << " is not acceptable.\n";
-		else
-			cout << "<" << s << ">" << " is acceptable.\n";
+		if (ret.size())
+			go();
 	}
+	sort(v.begin(), v.end(), cmp);
+	for (string i : v)
+		cout << i << "\n";
+
 
 	return 0;
 }
