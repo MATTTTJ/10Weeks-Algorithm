@@ -7,27 +7,46 @@
 #include <map>
 #include <vector>
 #include <queue>
+#include <stack>
 #include <string>
 #define CODINGTEST cin.tie(NULL); cout.tie(NULL); 
 
 using namespace std;
 
-// algorithm 1436
+// algorithm 9012
 
 int n;
+string s;
+
+bool check(string s)
+{
+	stack<char> stk;
+	for(char c : s)
+	{
+		if (c == '(')
+			stk.push(c);
+		else
+		{
+			if (!stk.empty())
+				stk.pop();
+			else
+				return false;
+		}
+	}
+	return stk.empty();
+}
 
 int main()
 {
 	cin >> n;
-	int i = 666;
-
-	for(;; i++)
+	for(int i =0; i <n; i++)
 	{
-		if (to_string(i).find("666") != string::npos)
-			n--;
-		if (n == 0)
-			break;
+		cin >> s;
+		if (check(s))
+			cout << "YES\n";
+		else
+			cout << "NO\n";
 	}
 
-	cout << i << "\n";
+	return 0;
 }
