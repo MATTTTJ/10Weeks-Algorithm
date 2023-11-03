@@ -14,22 +14,55 @@
 using namespace std;
 typedef long long ll;
 
-// algorithm 1436
-
-int n;
+// algorithm 4949
 
 int main()
 {
-	cin >> n;
-	int i = 666;
-
-	for(;; i++)
+	CODINGTEST
+	while(true)
 	{
-		if (to_string(i).find("666") != string::npos)
-			n--;
-		if (n == 0)
+		string s;
+		getline(cin, s);
+		if (s == ".")
 			break;
+		stack<int> stk;
+		bool check = true;
+		for(int i = 0;i < s.length(); i++)
+		{
+			if(s[i] == ')')
+			{
+				if(stk.size() == 0 || stk.top() == '[')
+				{
+					check = false;
+					break;
+				}
+				else
+				{
+					stk.pop();
+				}
+			}
+			if(s[i] == ']')
+			{
+				if(stk.size() == 0 || stk.top() == '(')
+				{
+					check = false;
+					break;
+				}
+				else
+				{
+					stk.pop();
+				}
+			}
+			if (s[i] == '(')
+				stk.push(s[i]);
+			if (s[i] == '[')
+				stk.push(s[i]);
+		}
+		if (check && stk.size() == 0)
+			cout << "yes\n";
+		else
+			cout << "no\n";
 	}
 
-	cout << i << "\n";
+	return 0;
 }
