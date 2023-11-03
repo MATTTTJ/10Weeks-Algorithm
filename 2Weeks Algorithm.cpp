@@ -1,52 +1,35 @@
 ﻿// 2Weeks Algorithm.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
 //
 
-
-// n : 1 ~ 10만
-// k : 1 ~ 10만 - 1 (n 사이 값)
-// 온도는 -100 ~ 100
-// 연속된 온도의 합이 "최대" 되는 값
-// 이 문제의 최솟값은? -100 * 10만  >> -1000만으로 잡을 것
-// 최대값은 어디서부터 ?
-
-// ret 에 최댓값을 계속 갱신할 것
-
-
-
-
-
-
-
+#define _CRT_SECURE_NO_WARNINGS
 #include <algorithm>
 #include <iostream>
 #include <map>
 #include <stack>
 #include <vector>
+#include <queue>
+#include <string>
+#define CODINGTEST cin.tie(NULL); cout.tie(NULL); 
 
 using namespace std;
 typedef long long ll;
 
-ll a, b, c;
+// algorithm 1436
 
-// 곱하기 자체를 하나의 변수로 놓는 방법 (실제로 곱하진 않음)
-// 모듈러 연산 교안 참고하기
-// 오버 플로우가 되기 전에 미리미리 모듈러 연산을 진행
-ll go(ll a, ll b)
-{
-	if (b == 1) return a % c;
-	ll ret = go(a, b / 2);
-	ret = (ret * ret) % c;
-	if (b % 2)
-		ret = (ret * a) % c;
-
-	return ret;
-}
+int n;
 
 int main()
 {
-	cin >> a >> b >> c;
+	cin >> n;
+	int i = 666;
 
-	cout << go(a, b) << "\n";
+	for(;; i++)
+	{
+		if (to_string(i).find("666") != string::npos)
+			n--;
+		if (n == 0)
+			break;
+	}
 
-	return 0;
+	cout << i << "\n";
 }
