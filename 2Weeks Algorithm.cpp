@@ -36,8 +36,10 @@ void dfs(int y, int x)
 	return;
 }
 
+// 벽을 세우고 세운 벽을 기반으로 바이러스가 퍼지고, 이 결과를 토대로 안전영역을 체크하는 함수
 int solve()
 {
+	// 경우의 수 마다 초기화해주고 dfs를 돌려야 한다. 바이러스가 퍼져나가는 것을 표현
 	fill(&visited[0][0], &visited[0][0] + 10 * 10, 0);
 	for (pair<int, int> b : virusList)
 	{
@@ -69,6 +71,7 @@ int main()
 			cin >> a[i][j];
 			if (a[i][j] == 2)
 				virusList.push_back({ i,j });
+			// 벽을 세울 수 있는 지점을 골라내서 좌표를 담는 작업
 			if (a[i][j] == 0)
 				wallList.push_back({ i,j });
 		}
