@@ -2,6 +2,8 @@
 //
 
 #define _CRT_SECURE_NO_WARNINGS
+#define CODINGTEST cin.tie(NULL); cout.tie(NULL); 
+
 #include <algorithm>
 #include <iostream>
 #include <map>
@@ -9,82 +11,56 @@
 #include <vector>
 #include <queue>
 #include <string>
-#define CODINGTEST cin.tie(NULL); cout.tie(NULL); 
 
 using namespace std;
 typedef long long ll;
 
-// algorithm 2636
+// algorithm 1068
 
-int a[104][104], visited[104][104];
-int dy[] = { -1, 0, 1,0 }, dx[] = { 0,1,0, -1 };
-int n, m, cnt, cnt2;
-vector<pair<int, int>> v;
+int n, r, temp, root;
+vector<int> adj[54];
+// 트리는 루트 노드부터 탐색할 것
+// here에서 there로 갈 때 지워진 곳이라면 가지 않는다는 로직 기반
 
-void go(int y, int x)
+int dfs(int here)
 {
-	visited[y][x] = 1;
-	if(a[y][x] ==1)
+	// 리프 노드의 수를 의미
+	int ret = 0;
+	int child = 0;
+	for(int there : adj[here])
 	{
-		// 치즈인경우 더이상 방문하지 않고 벡터에 푸시
-		v.push_back({ y,x });
-		return;
-	}
-	for(int i =0;i <4; i++)
-	{
-		int ny = y + dy[i];
-		int nx = x + dx[i];
-		if(ny < 0 || ny >= n || nx < 0 || nx >= m || visited[ny][nx])
+		// 지워진 노드인지? 
+		if (there == r)
 			continue;
-		go(ny, nx);
+		ret += dfs(there);
+		child++;
 	}
-	return;
-}
+	// 자식 노드가 없는 경우 리프 노드에서 1을 반환한 것을 윗 노드에서 더해진다.
+	if (child == 0)
+		return 1;
 
+	return ret;
+}
 
 int main()
 {
-	CODINGTEST
-	cin >> n >> m;
-
-	for(int i =0; i < n; i++)
+	cin >> n;
+	for(int i= 0; i <n; i++)
 	{
-		for(int j = 0; j < m; j++)
-		{
-			cin >> a[i][j];
-		}
+		cin >> temp;
+		if (temp == -1)
+			root = i;
+		else
+			adj[temp].push_back(i);
 	}
+	cin >> r;
 
-
-	while(true)
+	// here이 지워진 경우 예외처리
+	if(r == root)
 	{
-		cnt2 = 0;
-		fill(&visited[0][0], &visited[0][0] + 104 * 104, 0);
-		v.clear();
-		go(0, 0);
-		// 치즈가 녹기 전의 사이즈
-		cnt2 = v.size();
-		// 치즈를 녹인다.
-		for(pair<int, int> b : v)
-		{
-			cnt2++;
-			a[b.first][b.second] = 0;
-		}
-		// 치즈가 다 녹았는지 체크
-		bool flag = 0;
-		for(int i =0; i<n; i++)
-		{
-			for(int j =0; j <m; j++)
-			{
-				if (a[i][j] != 0)
-					flag = 1;
-			}
-		}
-		cnt++;
-		if (!flag)
-			break;
+		cout << 0 << "\n";
+		return 0;
 	}
-	cout << cnt << "\n" << cnt2 << '\n';
-
+	cout << dfs(root) << "\n";
 	return 0;
 }
